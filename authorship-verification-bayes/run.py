@@ -17,7 +17,7 @@ if __name__ == "__main__":
     predictions = model.predict(df["text"])
     df["generated"] = predictions
     df = df[["id", "generated"]]
-    print(df)
+    #print(df)
     
 
     # Save the predictions
