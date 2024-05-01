@@ -17,6 +17,8 @@ if __name__ == "__main__":
     predictions = model.predict(df["text"])
     df["generated"] = predictions
     df = df[["id", "generated"]]
+    print(df)
+    
 
     # Save the predictions
     output_directory = get_output_directory(str(Path(__file__).parent))
