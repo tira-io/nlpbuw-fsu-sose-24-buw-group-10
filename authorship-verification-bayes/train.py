@@ -18,6 +18,7 @@ if __name__ == "__main__":
         "nlpbuw-fsu-sose-24", "authorship-verification-train-20240408-training"
     )
     df = text.join(labels.set_index("id"))
+    print(df)
 
     # Train the model
     model = Pipeline(
