@@ -3,6 +3,9 @@ import re
 
 from tqdm import tqdm
 import pandas as pd
+from sklearn.feature_extraction.text import CountVectorizer
+from sklearn.linear_model import LogisticRegression
+from sklearn.pipeline import Pipeline
 from tira.rest_api_client import Client
 from tira.third_party_integrations import get_output_directory
 
@@ -52,27 +55,25 @@ if __name__ == "__main__":
         for lang_id in lang_ids
     }
 
+    # Initialize a logistic regression model with character n-grams as features
+    pipeline = Pipeline([
+        ('vectorizer', CountVectorizer(analyzer='char', ngram_range=(2, 5))),
+        ('classifier', LogisticRegression())
+    ])
+
     # classifying the data
-    stopword_fractions = []
+    predictions = {}
     for lang_id in tqdm(lang_ids):
         lang_stopwords = stopwords[lang_id]
-        counts = pd.Series(0, index=text_validation.index, name=lang_id)
-        for stopword in lang_stopwords:
-            counts += (
-                text_validation["text"]
-                .str.contains(stopword, regex=False, case=False)
-                .astype(int)
-            )
-        stopword_fractions.append(counts / len(lang_stopwords))
-    stopword_fractions = pd.concat(stopword_fractions, axis=1)
+        # Fit the model for each language
+        pipeline.fit(text_validation['text'], (targets_validation['lang'] == lang_id).astype(int))
+        # Predict probabilities for each text belonging to this language
+        predictions[lang_id] = pipeline.predict_proba(text_validation['text'])[:, 1]
 
-    # Apply additional feature engineering and machine learning models here
+    # Convert predictions to DataFrame
+    stopword_fractions = pd.DataFrame(predictions, index=text_validation.index)
 
-    # For example:
-    # 1. Use character n-grams or word n-grams as features
-    # 2. Train a logistic regression or Naive Bayes classifier on these features
-
-    # Once you have your predictions, continue as before:
+    # Find the language with the highest probability for each text
     prediction = stopword_fractions.idxmax(axis=1)
 
     # converting the prediction to the required format
