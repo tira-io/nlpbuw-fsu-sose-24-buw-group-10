@@ -17,6 +17,7 @@ if __name__ == "__main__":
     targets_validation = tira.pd.truths(
         "nlpbuw-fsu-sose-24", "language-identification-validation-20240429-training"
     )
+    print(text_validation)
 
     lang_ids = [
         "af",
@@ -50,6 +51,7 @@ if __name__ == "__main__":
         - set(("(", ")", "*", "|", "+", "?"))  # remove regex special characters
         for lang_id in lang_ids
     }
+
 
     # classifying the data
     stopword_fractions = []
