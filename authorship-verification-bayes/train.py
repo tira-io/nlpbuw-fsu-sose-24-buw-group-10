@@ -22,7 +22,7 @@ if __name__ == "__main__":
     )
     df = text.join(labels.set_index("id"))
     ##print(labels)
-    ##print(df)
+    print(df)
 
     # Train the model
     model = Pipeline(
