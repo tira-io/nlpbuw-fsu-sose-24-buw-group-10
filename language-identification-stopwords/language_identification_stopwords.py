@@ -52,7 +52,6 @@ if __name__ == "__main__":
         for lang_id in lang_ids
     }
 
-
     # classifying the data
     stopword_fractions = []
     for lang_id in tqdm(lang_ids):
@@ -67,6 +66,13 @@ if __name__ == "__main__":
         stopword_fractions.append(counts / len(lang_stopwords))
     stopword_fractions = pd.concat(stopword_fractions, axis=1)
 
+    # Apply additional feature engineering and machine learning models here
+
+    # For example:
+    # 1. Use character n-grams or word n-grams as features
+    # 2. Train a logistic regression or Naive Bayes classifier on these features
+
+    # Once you have your predictions, continue as before:
     prediction = stopword_fractions.idxmax(axis=1)
 
     # converting the prediction to the required format
