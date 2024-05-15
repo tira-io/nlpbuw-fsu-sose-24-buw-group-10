@@ -1,7 +1,7 @@
 FROM fschlatt/natural-language-processing-exercises:0.0.1
 
-# Install langdetect module and tqdm
-RUN pip install langdetect tqdm
+# Install tqdm
+RUN pip install tqdm
 
 # Add your script and any other necessary files
 COPY language_identification_stopwords.py /code/language_identification_stopwords.py
