@@ -11,7 +11,8 @@ if __name__ == "__main__":
     df = tira.pd.inputs(
         "nlpbuw-fsu-sose-24", "paraphrase-identification-validation-20240515-training"
     ).set_index("id")
-
+    print(df)
+    
     # Compute the Levenshtein distance
     df["distance"] = levenshtein_distance(df)
     df["label"] = (df["distance"] <= 10).astype(int)
